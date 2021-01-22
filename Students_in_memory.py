@@ -14,3 +14,6 @@ print([student for student in group_dict['Group_1'] if student in group_memory[c
 for student in group_dict['Group_1']:
     if student in group_memory[chosen_student]:
         print(student)
+
+
+print(group_dict['Group_1'][1])
