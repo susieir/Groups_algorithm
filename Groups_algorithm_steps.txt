@@ -1,0 +1,22 @@
+Challenge: 
+Create an algorithm which randomly assigns a list of students to a group
+The algorithm should maximise the number of people each person meets over several iterations
+
+Parameters:
+Students = 80
+Group size = 4
+
+Steps:
+1. Create a list of students
+2. Initialise a lookup that will keep a record of who each student has worked with
+3. For a given number of iterations:
+	3.1 Until the list of students is empty/for the number of required groups (80/4=20):
+		3.1.1 Create a empty set, to which students will be added
+		3.1.2 Create a loop that runs until the size of the set is 4 (the group size)
+			3.1.2.1 Randomly select a student from the list and add to the set
+			3.1.2.2 Remove the student from the student list
+			3.1.2.3 Create a loop that runs three more times to add the remaining students to the list:
+				3.1.2.3.1 Randomly select a another student from the list
+				3.1.2.3.2 Use the lookup to check if this student has not previously worked with any student in the set
+					3.1.2.3.2.1 If the student has not previously worked with any student in the set - add to list
+					3.1.2.3.2.2 Otherwise go back to step 3.1.2.3.2 and repeat
