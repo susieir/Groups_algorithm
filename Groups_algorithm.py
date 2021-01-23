@@ -23,9 +23,7 @@ harrys_friends = ['Fred', 'George', 'Harry', 'Hermione', 'Ron', 'Ginny']
 
 def initialise_group_memory(people_list):
     """ A function that initialises the group memory dict and adds all people from a list as keys"""
-    people_dict = {}  # Initialise group memory
-    for item in people_list:
-        people_dict[item] = []
+    people_dict = {student: [] for student in people_list}  # Initialise group memory
     return people_dict
 
 def assign_group(group, student, student_list):
@@ -34,18 +32,26 @@ def assign_group(group, student, student_list):
     student_list.remove(student)
     return group, student_list
 
+def remember_group(group, memory):
+    """ A function that adds all members of a group to memory, along with the students they have worked with"""
+    for student_i in group:
+        for student_j in group:
+            if student_i != student_j:
+                memory[student_i].append(student_j)
+    return memory
 
-group_memory = initialise_group_memory(harrys_friends)  # Initialise group memory
-group_memory['Fred'] = 'George'
-group_memory['George'] = 'Fred'
+
+
+
+#group_memory = initialise_group_memory(harrys_friends)  # Initialise group memory
+#group_memory['Fred'] = 'George'
+#group_memory['George'] = 'Fred'
 #print(group_memory['Ginny'])
 
 # For a given number of iterations: [@TODO - Add functionality]
 # Until the list of students is empty for the number of required groups (8 0 /4=20): [@TODO - Add functionality]
 
 
-# Make a copy of the student list
-copy_student_list = list(harrys_friends)
 
 def form_group(s_list, memory): #[@TODO - Add variables for group numbers and group size] [@TODO - Create function]
     # Add a group with an empty list to the dictionary, to which students will be added
@@ -57,46 +63,38 @@ def form_group(s_list, memory): #[@TODO - Add variables for group numbers and gr
             break
     # Randomly select a student from the copy list
         chosen_student = choice(s_list)
-        print("Chosen student is {b}".format(b=chosen_student))
 
         # Run checks
         # Check 1 - Is the group empty?
         if len(group_1) == 0:
             # Add to the group
             group, s_list = assign_group(group_1, chosen_student, s_list)
-            print("First group member is {}".format(chosen_student))
-            print(len(group_1))
-            print(s_list)
         # Check 2 - Have they worked with an existing group member before
         elif len([student for student in group_1 if student in memory[chosen_student]])>0: #[@TODO - fix elif]
-            print("Students have worked together, {} not added to group".format(chosen_student))
             pass
-                # The loop should begin again without adding the chosen student to the list
-            # If they have not worked with the chosen student
+            # If they have not worked with the chosen student, assign to a group
         else:
-            # Add them to the group and remove from the student list
             group, s_list = assign_group(group_1, chosen_student, s_list)
-            print("{} added to group".format(chosen_student))
-            print(s_list)
-            print(len(group_1))
         # Add all students in group to memory
-    print(group_1)
-    for student_i in group_1:
-        for student_j in group_1:
-            if student_i != student_j:
-                memory[student_i] = student_j
-    return group_1, memory, s_list
-
-group_1, mem, revised_s_list = form_group(harrys_friends, group_memory)
-
-print("Group 1 is \n{}".format(group_1))
-print("Memory is \n{}".format(mem))
-print("Latest student list is \n{}".format(revised_s_list))
-
-#    print("Copy student list: \copy_student_list)
-#    print(group_memory)
+    return group_1, s_list
 
 
+## 1. Initialise group memory
+group_memory = initialise_group_memory(harrys_friends)
+
+## 2. Copy student list
+#copy_student_list = list(harrys_friends)
+
+## 3. Form group
+group_1, harrys_list_updated = form_group(harrys_friends, group_memory)
+
+## 4. Remember group
+group_memory = remember_group(group_1, group_memory)
+
+## 5. Return outcome
+print("Group is {}".format(group_1))
+print("Group memory is \n{}".format(group_memory))
+print("Updated student list is {}".format(harrys_list_updated))
 
 
 # If the list is not currently empty

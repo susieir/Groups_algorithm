@@ -17,3 +17,16 @@ for student in group_dict['Group_1']:
 
 
 print(group_dict['Group_1'][1])
+
+group_1 = ['Ginny', 'Fred', 'Hermione', 'Ron']
+
+dict_a = {'Ginny' : [], 'Hermione': [], 'Ron' : [], 'Fred' : []}
+dict_b = {student: [] for student in group_1}
+print(dict_b)
+
+for student_i in group_1:
+    for student_j in group_1:
+        if student_i != student_j:
+            dict_b[student_i].append(student_j)
+            print(dict_b)
+
