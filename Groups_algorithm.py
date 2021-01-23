@@ -60,10 +60,10 @@ def assign_group(group_dict, group_n, student, student_list):
     return group_dict, student_list
 
 
-def remember_group(group, memory):
+def remember_group(group_dict, group, memory):
     """ A function that adds all members of a group to memory, along with the students they have worked with"""
-    for student_i in group:
-        for student_j in group:
+    for student_i in group_dict[group]:
+        for student_j in group_dict[group]:
             if student_i != student_j:
                 memory[student_i].append(student_j)
     return memory
@@ -119,7 +119,8 @@ def populate_groups(s_list, memory):
     # Form groups
     for n in range(1, n_groups + 1):
         dictionary_of_groups, updated_student_list = form_group(dictionary_of_groups, n, s_list, memory)
-    return dictionary_of_groups, updated_student_list
+        group_memory = remember_group(dictionary_of_groups, n, memory)
+    return dictionary_of_groups, updated_student_list, group_memory
 
 
 
@@ -132,12 +133,13 @@ group_memory = initialise_group_memory(data_science_class)
 #print(len(dictionary_of_groups[1]))
 
 ## 3. Populate groups
-dictionary_of_groups, data_science_class_updated = populate_groups(data_science_class, group_memory)
+dictionary_of_groups, data_science_class_updated, group_memory = populate_groups(data_science_class, group_memory)
 
 #print("Student list after group 1 {}".format(harrys_list_updated))
 #print("Student list after group 2 {}".format(harrys_list_updated_2))
 print("Dictionary of groups is \n{}".format(dictionary_of_groups))
 print("Remaining students to be assigned: \n{}".format(data_science_class_updated))
+print("Group memory is: \n{}".format(group_memory))
 
 ## 4. Remember group
 #group_memory = remember_group(group_1, group_memory)
