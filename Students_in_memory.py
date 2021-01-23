@@ -30,3 +30,4 @@ for student_i in group_1:
             dict_b[student_i].append(student_j)
             print(dict_b)
 
+print(len(dict_b['Ginny']))
