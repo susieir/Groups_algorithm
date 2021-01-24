@@ -14,26 +14,13 @@ The algorithm should maximise the number of people each person meets over severa
 from random import choice, seed
 from math import ceil
 import names
+import pandas as pd
 
 # Set seed for reproducibility
 set_seed = seed(42)
 
-# Student list input [@TODO - add functionality to read from csv]
-def student_list_generator(n):
-    """ Generates a list of n names"""
-    # Initialise student_list
-    student_list = []
-    for n in range(0,n):
-        student_list.append(names.get_first_name())
-    return student_list
-
-
-data_science_class = student_list_generator(80)
-
-#harrys_friends = ['Fred', 'George', 'Harry', 'Hermione', 'Ron', 'Ginny', 'Luna', 'Neville']
-
-# Initialise a N dictionaries for each iteration (group_dict_N) [@TODO - create function]
-#group_dict_1 = {}
+# Initialise student list
+data_science_class = [i for i in range(1, 81)]
 
 ########################################################################################################################
 # BASIC FUNCTIONS
@@ -85,7 +72,7 @@ def form_group(group_dict, group_n, s_list, memory): #[@TODO - Add variables for
             break
     # Randomly select a student from the copy list
         chosen_student = choice(s_list)
-        print("Chosen student is {}".format(chosen_student))
+#        print("Chosen student is {}".format(chosen_student))
 
         # Check 1 - Is the group empty?
         if len(group_dict[group_n]) == 0:
@@ -110,39 +97,64 @@ def form_group(group_dict, group_n, s_list, memory): #[@TODO - Add variables for
 
 def populate_groups(s_list, memory):
     # Calculate number of groups required
-    n_groups = ceil(len(s_list) / 4)
-    print("{} groups required".format(n_groups))
+    copy_s_list = list(s_list)
+    n_groups = ceil(len(copy_s_list) / 4)
+#    print("{} groups required".format(n_groups))
 
     # Initialise group dictionary
     dictionary_of_groups = initialise_group_dict(n_groups)
 
-    # Form groups
+    # For each group
     for n in range(1, n_groups + 1):
-        dictionary_of_groups, updated_student_list = form_group(dictionary_of_groups, n, s_list, memory)
+        # Populate group
+        dictionary_of_groups, updated_student_list = form_group(dictionary_of_groups, n, copy_s_list, memory)
+        # Remember group
         group_memory = remember_group(dictionary_of_groups, n, memory)
-    return dictionary_of_groups, updated_student_list, group_memory
+    return dictionary_of_groups, group_memory
+
+def main(s_list, iter):
+    """ A function that creates groups from a student list to maximise the number of students each other
+    student meets over a specific number of iterations"""
+    # Initialise memory
+    s_mem = initialise_group_memory(s_list)
+    print(s_mem)
+
+    # Initialise list of group dictionaries for each iteration
+    list_of_groups = []
+
+    # Repeat group population for the required number of iterations
+    for i in range(iter):
+        # Populate groups
+        dictionary_of_groups, memory = populate_groups(s_list, s_mem)
+        # Add dictionary of groups to list of groups dictionary
+        list_of_groups.append(dictionary_of_groups)
+    return list_of_groups, memory
 
 
 
-## 1. Initialise group memory
-group_memory = initialise_group_memory(data_science_class)
-#print(group_memory)
+    ## 3. Populate groups
+# Iteration 1
+#dictionary_of_groups_iter1, group_memory = populate_groups(data_science_class, group_memory)
 
-## 2. Initialise group dict
-#dictionary_of_groups = initialise_group_dict(2)
-#print(len(dictionary_of_groups[1]))
+# Iteration 2
+#dictionary_of_groups_iter2, group_memory = populate_groups(data_science_class, group_memory)
 
-## 3. Populate groups
-dictionary_of_groups, data_science_class_updated, group_memory = populate_groups(data_science_class, group_memory)
+
+list_of_groups, group_memory = main(data_science_class, 2)
+print(list_of_groups[0])
+print(list_of_groups[1])
+print(group_memory)
+
+#list_of_groups_df.to_csv('list_of_groups_2.csv')
+
+#print("Memory is \n{}".format(main(data_science_class, 3)[1]))
+
 
 #print("Student list after group 1 {}".format(harrys_list_updated))
 #print("Student list after group 2 {}".format(harrys_list_updated_2))
-print("Dictionary of groups is \n{}".format(dictionary_of_groups))
-print("Remaining students to be assigned: \n{}".format(data_science_class_updated))
-print("Group memory is: \n{}".format(group_memory))
-
-## 4. Remember group
-#group_memory = remember_group(group_1, group_memory)
+#print("Dictionary of groups iter 1 is \n{}".format(dictionary_of_groups_iter1))
+#print("Dictionary of groups iter 2 is \n{}".format(dictionary_of_groups_iter2))
+#print("Group memory is: \n{}".format(group_memory))
 
 ## 5. Return outcome
 #print("Group is {}".format(group_1))
