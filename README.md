@@ -10,6 +10,7 @@ Next steps:
 - Build csv/xls export of groups for each iteration
 - Review limitations/possible extensions and put in place (or document)
 
-Limitations:
+Limitations/possible extensions:
 - Only works where the class size (n) is n % 4 == 0
 - Class size is fixed (turn into a param)
+- How to deal with situation where all students have worked with all other possible students
