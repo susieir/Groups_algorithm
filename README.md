@@ -3,13 +3,12 @@
 An algorithm that maximises that number of people each student in a class meets over the course of a number of group exercises.
 Groups are randomly allocated, avoiding placing two students who have worked before together.
 
-**Work in progress**: Currently allocates n groups based on a list of n*4 students, whilst creating a group memory
+**Work in progress**: Algorithm functions and takes a csv input - manually checked for up to three iterations
 
 Next steps:
-- Fix group memory - currently some students have too many other students in memory
-- Extend for multiple iterations
-- Update for a csv class list input
-- Review limitations and fix (or document)
+- Build testing function to check accuracy on more than three iterations
+- Build csv/xls export of groups for each iteration
+- Review limitations/possible extensions and put in place (or document)
 
 Limitations:
 - Only works where the class size (n) is n % 4 == 0
